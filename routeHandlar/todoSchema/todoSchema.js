@@ -5,4 +5,15 @@ const todoSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    description: String,
+    status: {
+        type: String,
+        enum: ['active', 'inactive'],
+    },
+    data: {
+        type: Date,
+        default: Date.now,
+    },
 });
+
+module.exports = todoSchema;

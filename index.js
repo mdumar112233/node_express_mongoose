@@ -43,16 +43,17 @@ const app = express();
 
 app.use(express.json());
 
+const DB = 'mongodb://mdfaruk112233:mdfaruk112233@cluster0.ij0ac.mongodb.net/todo-app?retryWrites=true&w=majority';
 // database connections with mongoose
 mongoose
-    .connect('mongodb://localhost/test', { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
     .then(() => console.log('conneted'))
     .catch((err) => console.log(err));
 
 app.use('/todo', todoHandler);
 
 app.get('/', (req, res) => {
-    res.send('This is home page name');
+    res.send('This is home page name is new one');
 });
 
 app.listen(3000, () => console.log('your server is runing at 3000'));
