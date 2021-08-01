@@ -39,13 +39,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const todoHandler = require('./routeHandlar/todoHandler');
 const userHandler = require('./routeHandlar/userHandler');
+require('dotenv').config();
 
 const app = express();
 
 app.use(express.json());
 
-const DB =
-    'mongodb+srv://mdfaruk112233:mdfaruk112233@cluster0.ij0ac.mongodb.net/todo-app?retryWrites=true&w=majority';
+const DB =    'mongodb+srv://mdfaruk112233:mdfaruk112233@cluster0.ij0ac.mongodb.net/todo-app?retryWrites=true&w=majority';
 // database connections with mongoose
 mongoose
     .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -55,8 +55,15 @@ mongoose
 app.use('/todo', todoHandler);
 app.use('/user', userHandler);
 
-app.get('/', (req, res) => {
-    res.send('This is home page name is new one');
-});
+const errorhandler = (err, req, res, next) => {
+    if (res.headersSend) {
+        return next(err);
+    }
+    res.status(500).json({
+        error: err,
+    });
+};
+
+app.use(errorhandler);
 
 app.listen(3000, () => console.log('your server is runing at 3000'));
