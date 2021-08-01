@@ -18,22 +18,54 @@ router.post('/', async (req, res) => {
     const newTodo = new Todo(req.body);
     await newTodo.save((err) => {
         if (err) {
-            res.status(5000).json({
+            res.status(500).json({
                 error: 'there was a server error',
             });
         } else {
             res.status(200).json({
-                meaage: 'todo was inserted sucessfully',
+                message: 'todo was inserted sucessfully',
             });
         }
     });
 });
 
 // post multiple todo
-router.get('/all', async (req, res) => {});
+router.post('/all', async (req, res) => {
+    await Todo.insertMany(req.body, (err) => {
+        if (err) {
+            res.status(500).json({
+                error: 'there was a server error',
+            });
+        } else {
+            res.status(200).json({
+                message: 'todo was inserted sucessfully',
+            });
+        }
+    });
+});
 
 // put todo
-router.put('/:id', async (req, res) => {});
+router.put('/:id', async (req, res) => {
+    await Todo.updateOne(
+        { _id: req.params.id },
+        {
+            $set: {
+                status: 'active',
+            },
+        },
+        (err) => {
+            if (err) {
+                res.status(500).json({
+                    error: 'there was a server error',
+                });
+            } else {
+                res.status(200).json({
+                    message: 'todo was updated sucessfully',
+                });
+            }
+        }
+    );
+});
 
 // delete todo
 router.delete('/:id', async (req, res) => {});

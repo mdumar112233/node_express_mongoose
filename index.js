@@ -43,7 +43,8 @@ const app = express();
 
 app.use(express.json());
 
-const DB = 'mongodb://mdfaruk112233:mdfaruk112233@cluster0.ij0ac.mongodb.net/todo-app?retryWrites=true&w=majority';
+const DB =
+    'mongodb+srv://mdfaruk112233:mdfaruk112233@cluster0.ij0ac.mongodb.net/todo-app?retryWrites=true&w=majority';
 // database connections with mongoose
 mongoose
     .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
