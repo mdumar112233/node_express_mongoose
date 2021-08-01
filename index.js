@@ -38,6 +38,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const todoHandler = require('./routeHandlar/todoHandler');
+const userHandler = require('./routeHandlar/userHandler');
 
 const app = express();
 
@@ -52,6 +53,7 @@ mongoose
     .catch((err) => console.log(err));
 
 app.use('/todo', todoHandler);
+app.use('/user', userHandler);
 
 app.get('/', (req, res) => {
     res.send('This is home page name is new one');

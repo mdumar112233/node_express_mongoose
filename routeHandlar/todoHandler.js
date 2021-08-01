@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = express.Router();
-const todoSchema = require('./todoSchema/todoSchema');
+const todoSchema = require('../schema/todoSchema');
 
 const Todo = new mongoose.model('Todo', todoSchema);
 
@@ -28,19 +28,43 @@ router.get('/', async (req, res) => {
         });
 });
 
-// get a todo by id
-router.get('/:id', async (req, res) => {
-    try {
-        const data = await Todo.find({ _id: req.params.id });
-        res.status(200).json({
-            result: data,
-            message: 'todo was inserted sucessfully',
-        });
-    } catch {
-        res.status(500).json({
-            error: 'there was a server error',
-        });
-    }
+// get a todo by id | one way
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const data = await Todo.find({ _id: req.params.id });
+//         res.status(200).json({
+//             result: data,
+//             message: 'todo was inserted sucessfully',
+//         });
+//     } catch {
+//         res.status(500).json({
+//             error: 'there was a server error',
+//         });
+//     }
+// });
+// get active todo | second way
+router.get('/active', async (req, res) => {
+    const todo = new Todo();
+    const data = await todo.findActive();
+    res.status(200).json({
+        data,
+    });
+});
+
+// get js todo with static method
+// router.get('/js', async (req, res) => {
+//     const data = await Todo.findJs();
+//     res.status(200).json({
+//         data,
+//     });
+// });
+
+// get todo by using query helper
+router.get('/language', async (req, res) => {
+    const data = await Todo.find().byLanguage('umar');
+    res.status(200).json({
+        data,
+    });
 });
 
 // post a todo
@@ -96,7 +120,7 @@ router.put('/:id', async (req, res) => {
                     message: 'todo was updated sucessfully',
                 });
             }
-        },
+        }
     );
 });
 

@@ -1,11 +1,18 @@
 const mongoose = require('mongoose');
 
-const todoSchema = mongoose.Schema({
-    title: {
+const userSchema = mongoose.Schema({
+    name: {
         type: String,
         require: true,
     },
-    description: String,
+    username: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
     status: {
         type: String,
         enum: ['active', 'inactive'],
@@ -16,4 +23,4 @@ const todoSchema = mongoose.Schema({
     },
 });
 
-module.exports = todoSchema;
+module.exports = userSchema;
