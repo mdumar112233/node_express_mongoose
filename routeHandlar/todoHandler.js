@@ -30,18 +30,17 @@ router.get('/', async (req, res) => {
 
 // get a todo by id
 router.get('/:id', async (req, res) => {
-    await Todo.find({ _id: req.params.id }, (err, data) => {
-        if (err) {
-            res.status(500).json({
-                error: 'there was a server error',
-            });
-        } else {
-            res.status(200).json({
-                result: data,
-                message: 'todo was inserted sucessfully',
-            });
-        }
-    });
+    try {
+        const data = await Todo.find({ _id: req.params.id });
+        res.status(200).json({
+            result: data,
+            message: 'todo was inserted sucessfully',
+        });
+    } catch {
+        res.status(500).json({
+            error: 'there was a server error',
+        });
+    }
 });
 
 // post a todo
